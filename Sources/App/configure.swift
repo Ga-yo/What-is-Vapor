@@ -30,6 +30,7 @@ final class Test: Model, Content {
     @ID(key: .id)
     var id: UUID?
     
+    
     @Field(key: "name")
     var name: String
     
