@@ -24,33 +24,5 @@ public func configure(_ app: Application) throws {
 }
 
 
-final class Test: Model, Content {
-    static let schema = "galaxies"
-    
-    @ID(key: .id)
-    var id: UUID?
-    
-    
-    @Field(key: "name")
-    var name: String
-    
-    init() { }
-    
-    init(id: UUID? = nil, name: String) {
-        self.id = id
-        self.name = name
-    }
-}
 
-struct CreateGalaxy: Migration {
-    func prepare(on database: Database) -> EventLoopFuture<Void> {
-        database.schema("galaxies")
-            .id()
-            .field("name", .string)
-            .create()
-    }
-    
-    func revert(on database: Database) -> EventLoopFuture<Void> {
-        database.schema("galaxies").delete()
-    }
-}
+
