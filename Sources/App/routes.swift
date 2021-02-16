@@ -1,6 +1,7 @@
 import Vapor
 
 func routes(_ app: Application) throws {
+
     app.get { req in
         return "It works!"
     }
@@ -48,4 +49,20 @@ func routes(_ app: Application) throws {
         let id = req.parameters.get("id")!
         return "group users \(id)"
     }
+    
+    app.post("greeting") { (req) -> HTTPResponseStatus in
+        let greeting = try req.content.decode(Greeting.self)
+        print(greeting.hello)
+        return HTTPStatus.ok
+    }
+    
+    //hello?name=\(name) 쿼리문
+    app.get("hello") { (req) -> String in
+        let hello = try req.query.decode(Hello.self)
+        return "Hello. \(hello.name ?? "Anonymous")"
+        
+        //let name: String? = req.query["name"] 단일값
+    }
+    
+    
 }
