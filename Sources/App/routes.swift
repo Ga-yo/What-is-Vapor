@@ -64,5 +64,10 @@ func routes(_ app: Application) throws {
         //let name: String? = req.query["name"] 단일값
     }
     
-    
+    app.post("users") { (req) -> CreateUser in
+        try CreateUser.validate(content: req)
+        try CreateUser.validate(query: req)
+        let user = try req.content.decode(CreateUser.self)
+        return user
+    }
 }
