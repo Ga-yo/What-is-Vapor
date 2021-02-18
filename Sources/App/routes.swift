@@ -6,7 +6,8 @@ func routes(_ app: Application) throws {
         return "It works!"
     }
 
-    app.get("hello") { req -> String in
+    app.get("hi") { req -> String in
+        req.logger.info("Hello logs!")
         return "Hello, world!"
     }
     
@@ -14,7 +15,7 @@ func routes(_ app: Application) throws {
         return "Ethan Hunt"
     }
 
-    //hello/\(name)
+//    hello/\(name)
     app.get("hello", ":name") { req -> String in
         let name = req.parameters.get("name")!
         return "Hello \(name)!"
