@@ -71,4 +71,46 @@ func routes(_ app: Application) throws {
         let user = try req.content.decode(CreateUser.self)
         return user
     }
+    
+    app.get(Constants.Endpoints.products.path) { (req) -> Response in
+        let products = app.productService.getProducts()
+        return .init(status: .ok,
+                     version: req.version,
+                     headers: [
+                       "Content-Type":
+                       "application/json"
+                     ],
+                     body:
+                       .init(string:
+                          products.codableArrayJSONString()
+                       ))
+    }
+    
+    app.get(Constants.Endpoints.products.path,
+            ":\(Constants.Endpoints.singleProduce.path)") { req -> Response in
+        let productId = req.parameters.get(
+            Constants.Endpoints.singleProduce.rawValue,
+            as: Int.self
+        ) ?? 0
+            
+        if let product = app.productService.getProductById(id: productId) {
+                return .init(status: .ok,
+                         version: req.version,
+                         headers: [
+                           "Content-Type":
+                           "application/json"],
+                         body:
+                          .init(
+                            string: product.asJSONString()
+                          ))
+        }
+            
+        return .init(status: .ok,
+                 version: req.version,
+                 headers: [
+                   "Content-Type":
+                   "application/json"
+                 ],
+                 body: .init(string: "No product found."))
+        }
 }
