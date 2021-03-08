@@ -13,7 +13,7 @@ enum ResponseStatus: Int, Content {
     case error = 400
     case unknown = 500
     
-    var desc = String {
+    var desc: String {
         switch self{
         case .ok:
             return "요청이 성공했습니다"
@@ -36,7 +36,7 @@ struct ResponseJSON<T: Content>: Content {
         self.data = data
     }
     
-    init(status: ResponseStatus = .ok) {
+    init(status: ResponseStatus = .ok, message: String = ResponseStatus.ok.desc) {
         self.status = status
         self.message = message
         self.data = nil

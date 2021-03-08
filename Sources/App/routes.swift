@@ -2,6 +2,9 @@ import Vapor
 
 func routes(_ app: Application) throws {
 
+    app.get("galaxies") { (req) in
+        Galaxy.query(on: req.db).all()
+    }
     app.get { req in
         return "It works!"
     }
