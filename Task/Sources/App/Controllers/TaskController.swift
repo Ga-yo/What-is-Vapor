@@ -24,6 +24,7 @@ struct TaskController: RouteCollection {
     }
     
     func create(req: Request) throws -> EventLoopFuture<Task> {
+        try Task.validate(content: req)
         let task = try req.content.decode(Task.self)
         return task.create(on: req.db).map { task }
     }
@@ -37,3 +38,10 @@ struct TaskController: RouteCollection {
 }
 
 extension Task: Content { }
+extension Task: Validatable { //Codable은 첫번째 오류가 발생하는 즉시 디코딩을 중지하지만 Validateble API는 요청에서 실패한 모든 유효성 검사를 보고하므로 더 빠르게 원인을 찾을 수 있다
+    static func validations(_ validations: inout Validations) {
+        validations.add("title", as: String.self, is: !.empty)
+        validations.add("status", as: String.self, is: .in("toDo", "doing", "done"))
+        validations.add("comment", as: String?.self, required: false)
+    }
+}
