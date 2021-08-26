@@ -20,6 +20,7 @@ struct TaskController: RouteCollection {
     }
     
     func showAll(req: Request) throws -> EventLoopFuture<[Task]> {
+        print("tasks get")
         return Task.query(on: req.db).all()
     }
     
@@ -31,7 +32,7 @@ struct TaskController: RouteCollection {
     
     func delete(req: Request) throws -> EventLoopFuture<HTTPStatus> {
         return Task.find(req.parameters.get("id"), on: req.db)
-            .unwrap(or: Abort(.notFound))
+            .unwrap(or: Abort(.notFound)) // Abort라는 기본 오류 타입
             .flatMap { $0.delete(on: req.db) }
             .transform(to: .ok)
     }

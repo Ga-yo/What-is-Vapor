@@ -23,7 +23,7 @@ final class Task: Model {
     @OptionalField(key: "comment") //옵셔널 타입 사용
     var comment: String?
     
-    @Timestamp(key: "create_date", on: .create)
+    @Timestamp(key: "created_date", on: .create)
     var createdDate: Date?
     
     init() { } //모델은 반드시 빈 이니셜라이저를 가져야한다
