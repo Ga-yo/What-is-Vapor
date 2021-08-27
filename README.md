@@ -15,7 +15,7 @@ Server-side Swift with Vapor
 
   - App
 
-    앱을 구성하는데 필요한 코드를 포함한다.
+    앱을 구성하는데 필요한 코드를 포함한다. 실제 백엔드 애플리케이션 코드를 넣는 곳!
 
     - Controllers
 
@@ -25,9 +25,13 @@ Server-side Swift with Vapor
 
       데이터베이스 마이그레이션을 정의하는 타입이 위치한다.
 
+      Vapor 4에서는 한 데이터베이스 체계에서 다른 데이터베이스 체계로 마이그레이션하는 방법을 사용자 지정할 수있는 훨씬 더 많은 기능이 있다.
+
     - Models
 
       데이터베이스의 데이터 구조를 나타내는 모델이 위치한다.
+
+      Vapor에는 Fluent라는 깔끔한 데이터베이스 추상화 도구 (ORM 프레임 워크)가 있다. 모델은 일반적으로이 Fluent 라이브러리와 관련된 데이터베이스 항목을 나타낸다.
 
     - configure.swift
 
@@ -39,7 +43,7 @@ Server-side Swift with Vapor
 
   - Run
 
-    앱을 실행하는데 필요한 코드만 포함된다.
+    앱을 실행하는데 필요한 코드만 포함된다. 앱 라이브러리를 로드하고 적절한 구성 및 환경 변수를 사용하여 Vapor 백엔드 서버를 시작할 수 있다. <code>main.swift</code> 실행할 수 있는 단일 파일만 포함되어있다.
 
     - main.swift
 
