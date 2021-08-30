@@ -44,3 +44,10 @@ final class Task: Model {
 enum Status: String, Codable {
     case toDo, doing, done
 }
+
+final class PatchTask: Codable {
+    var id: UUID?
+    var title: String
+    var status: Status
+    var comment: String?
+}

@@ -14,13 +14,13 @@ struct TaskController: RouteCollection {
         let tasks = routes.grouped("tasks")
         tasks.get(use: showAll)
         tasks.post(use: create)
+        tasks.patch(use: update)
         tasks.group(":id") { tasks in
             tasks.delete(use: delete)
         }
     }
     
     func showAll(req: Request) throws -> EventLoopFuture<[Task]> {
-        print("tasks get")
         return Task.query(on: req.db).all()
     }
     
@@ -35,6 +35,20 @@ struct TaskController: RouteCollection {
             .unwrap(or: Abort(.notFound)) // Abort라는 기본 오류 타입
             .flatMap { $0.delete(on: req.db) }
             .transform(to: .ok)
+    }
+    
+    func update(req: Request) throws -> EventLoopFuture<Task> {
+        let exist = try req.content.decode(PatchTask.self)
+
+        return Task.find(exist.id, on: req.db)
+            .unwrap(or: Abort(.notFound))
+            .flatMap { item in
+                print(item.title)
+                item.title = exist.title
+                item.status = exist.status
+                if let comment = exist.comment { item.comment = comment }
+                return item.update(on: req.db).map { return item }
+            }
     }
 }
 
